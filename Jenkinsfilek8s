@@ -14,7 +14,8 @@ pipeline {
         }
 		stage('base') {
 			execute("git clone https://bitbucket.microchip.com/scm/~i15784/base.git")
-			load 'base/Jenkinsfile'
+			execute("ls")
+			//load 'base/Jenkinsfile'
 		}
 	}
 }	
