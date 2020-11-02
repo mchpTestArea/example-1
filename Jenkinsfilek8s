@@ -1,0 +1,27 @@
+pipeline {
+    agent {
+        kubernetes {
+            label 'relative'
+			defaultContainer 'xc8-mplabx'
+            yamlFile 'cloudprovider.yml'
+        }
+    }
+	 stages {
+        stage('Checkout') {
+            steps {
+				checkout scm
+            }
+        }
+		stage('base') {
+			execute("git clone https://bitbucket.microchip.com/scm/~i15784/base.git")
+			load 'base/Jenkinsfile'
+		}
+	}
+}	
+def execute(String cmd) {
+	if(isUnix()) {
+		sh cmd
+	} else {
+		bat cmd
+	}
+}
