@@ -6,12 +6,14 @@ pipeline {
             yamlFile 'cloudprovider.yml'
         }
     }
-	 stages {
+	
+	stages {
         stage('Checkout') {
             steps {
 				checkout scm
             }
         }
+		
 		stage('base') {
 			steps {
 				 build job: "User Repositories/Dinesh Baria/base/master", 
@@ -24,10 +26,3 @@ pipeline {
 		}
 	}
 }	
-def execute(String cmd) {
-	if(isUnix()) {
-		sh cmd
-	} else {
-		bat cmd
-	}
-}
