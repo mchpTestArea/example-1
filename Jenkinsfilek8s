@@ -14,11 +14,7 @@ pipeline {
         }
 		stage('base') {
 			steps {
-				script {
-					execute("git clone https://bitbucket.microchip.com/scm/~i15784/base.git")
-					execute("echo $WORKSPACE")
-					load 'base/Jenkinsfilek8s'
-				}
+				 build job: "/project/A/${env.BRANCH}", propagate:true, wait: true
 			}
 		}
 	}
