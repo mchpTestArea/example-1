@@ -16,8 +16,8 @@ pipeline {
 			steps {
 				 build job: "User Repositories/Dinesh Baria/base/master", 
 							parameters: [
-								string(name: 'repoName', value: "relative",
-								string(name: 'branchName', value: "{env.BRANCH_NAME}")
+								string(name: 'REPO_NAME', value: "relative"),
+								string(name: 'BRANCH_NAME', value: "{env.BRANCH_NAME}")
 							],
 							propagate:true, wait: true
 			}
