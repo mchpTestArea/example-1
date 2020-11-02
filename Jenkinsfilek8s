@@ -17,7 +17,7 @@ pipeline {
 				script {
 					execute("git clone https://bitbucket.microchip.com/scm/~i15784/base.git")
 					execute("ls")
-					//load 'base/Jenkinsfile'
+					load 'base/Jenkinsfile'
 				}
 			}
 		}
