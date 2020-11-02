@@ -14,7 +14,12 @@ pipeline {
         }
 		stage('base') {
 			steps {
-				 build job: "User Repositories/Dinesh Baria/base/master", propagate:true, wait: true
+				 build job: "User Repositories/Dinesh Baria/base/master", 
+							parameters: [
+								string(name: 'repoName', value: "relative",
+								string(name: 'branchName', value: "{env.BRANCH_NAME}")
+							],
+							propagate:true, wait: true
 			}
 		}
 	}
