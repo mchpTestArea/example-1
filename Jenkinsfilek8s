@@ -16,7 +16,7 @@ pipeline {
 			steps {
 				script {
 					execute("git clone https://bitbucket.microchip.com/scm/~i15784/base.git")
-					execute("ls")
+					execute("echo $WORKSPACE")
 					load 'base/Jenkinsfilek8s'
 				}
 			}
