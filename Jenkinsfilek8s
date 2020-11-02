@@ -13,9 +13,13 @@ pipeline {
             }
         }
 		stage('base') {
-			execute("git clone https://bitbucket.microchip.com/scm/~i15784/base.git")
-			execute("ls")
-			//load 'base/Jenkinsfile'
+			steps {
+				script {
+					execute("git clone https://bitbucket.microchip.com/scm/~i15784/base.git")
+					execute("ls")
+					//load 'base/Jenkinsfile'
+				}
+			}
 		}
 	}
 }	
