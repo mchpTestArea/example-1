@@ -15,22 +15,16 @@ pipeline {
 		stage('base') {
 			steps {
 				script {
-					catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-						def job = build job: "User Repositories/Dinesh Baria/base/master", 
-								parameters: [
-									string(name: 'REPO_NAME', value: "relative"),
-									string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}")
-								],
-								propagate:true, wait: true
-					}
-					echo "build Log: ${job.getAbsoluteUrl()}/console"
-					echo "build Artifacts:${job.getAbsoluteUrl()}/artifact"
-					
+					def job = build job: "User Repositories/Dinesh Baria/base/master", 
+						parameters: [
+							string(name: 'REPO_NAME', value: "relative"),
+							string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}")
+						],
+						propagate:true, wait: true
 				}
 			}
 		}
 	}
-
 }	
 def execute(String cmd) {
 	if(isUnix()) {
