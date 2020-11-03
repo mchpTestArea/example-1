@@ -22,7 +22,7 @@ pipeline {
 							],
 							propagate:true, wait: true
 				
-					echo "${job}"
+					echo "${job.getNumber()}"
 				}
 			}
 		}
