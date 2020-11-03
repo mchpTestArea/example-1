@@ -20,7 +20,7 @@ pipeline {
 				//				string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}")
 				//			],
 				//			propagate:true, wait: true
-				def downstreamJob = build('User Repositories/Dinesh Baria/base/master')
+				def downstreamJob = build("User Repositories/Dinesh Baria/base/master")
 				echo "${downstreamJob}"
 			}
 		}
