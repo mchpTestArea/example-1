@@ -22,7 +22,8 @@ pipeline {
 							],
 							propagate:true, wait: true
 				
-					echo "${job.getNumber()} ${job.getAbsoluteUrl()}"
+					echo "build Log: ${job.getAbsoluteUrl()}/console"
+					echo "build Artifacts:${job.getAbsoluteUrl()}/artifact"
 				}
 			}
 		}
