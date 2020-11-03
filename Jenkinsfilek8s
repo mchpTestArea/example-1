@@ -22,7 +22,7 @@ pipeline {
 							],
 							propagate:true, wait: true
 				
-					echo "${job.getNumber()} ${job.getAbsoluteUrl}"
+					echo "${job.getNumber()} ${job.getAbsoluteUrl()}"
 				}
 			}
 		}
