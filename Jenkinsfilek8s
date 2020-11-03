@@ -27,8 +27,7 @@ pipeline {
 			}
 		}
 	}
-	post {
-	}
+
 }	
 def execute(String cmd) {
 	if(isUnix()) {
