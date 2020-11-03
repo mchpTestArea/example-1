@@ -6,7 +6,7 @@ pipeline {
             yamlFile 'cloudprovider.yml'
         }
     }
-	 stages {
+	stages {
         stage('Checkout') {
             steps {
 				checkout scm
@@ -22,10 +22,12 @@ pipeline {
 							],
 							propagate:true, wait: true
 				
-					echo "${job.getNumber()}"
+					echo "${job.getNumber()} ${job.getAbsoluteUrl}"
 				}
 			}
 		}
+	}
+	post {
 	}
 }	
 def execute(String cmd) {
