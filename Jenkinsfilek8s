@@ -14,14 +14,16 @@ pipeline {
         }
 		stage('base') {
 			steps {
-				def job = build job: "User Repositories/Dinesh Baria/base/master", 
+				script {
+					def job = build job: "User Repositories/Dinesh Baria/base/master", 
 							parameters: [
 								string(name: 'REPO_NAME', value: "relative"),
 								string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}")
-							]//,
-							//propagate:true, wait: true
+							],
+							propagate:true, wait: true
 				
-				echo "${job}"
+					echo "${job}"
+				}
 			}
 		}
 	}
