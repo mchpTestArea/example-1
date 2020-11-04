@@ -1,12 +1,12 @@
 pipeline {
-    //agent {
-    //    kubernetes {
-    //        label 'relative'
-	//		defaultContainer 'xc8-mplabx'
-    //        yamlFile 'cloudprovider.yml'
-    //    }
-    //}
-	agent any
+    agent {
+        kubernetes {
+           label 'relative'
+			defaultContainer 'xc8-mplabx'
+            yamlFile 'cloudprovider.yml'
+       }
+    }
+
 	options {
 		timestamps()
 	}
