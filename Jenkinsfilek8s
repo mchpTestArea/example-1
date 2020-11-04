@@ -1,12 +1,16 @@
 pipeline {
     agent {
         kubernetes {
-            label 'relative'
+           label 'relative'
 			defaultContainer 'xc8-mplabx'
             yamlFile 'cloudprovider.yml'
-        }
+       }
     }
-	
+
+	options {
+		timestamps()
+	}
+
 	stages {
         stage('Checkout') {
             steps {
@@ -16,12 +20,14 @@ pipeline {
 		
 		stage('base') {
 			steps {
-				 build job: "User Repositories/Dinesh Baria/base/master", 
-							parameters: [
-								string(name: 'REPO_NAME', value: "relative"),
-								string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}")
-							],
-							propagate:true, wait: true
+				script {
+					def job = build job: "User Repositories/Dinesh Baria/base/master", 
+						parameters: [
+							string(name: 'REPO_NAME', value: "relative"),
+							string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}")
+						],
+						propagate:true, wait: true
+				}
 			}
 		}
 	}
