@@ -1,11 +1,15 @@
 pipeline {
-    agent {
-        kubernetes {
-            label 'relative'
-			defaultContainer 'xc8-mplabx'
-            yamlFile 'cloudprovider.yml'
-        }
-    }
+    //agent {
+    //    kubernetes {
+    //        label 'relative'
+	//		defaultContainer 'xc8-mplabx'
+    //        yamlFile 'cloudprovider.yml'
+    //    }
+    //}
+	agent any
+	options {
+		timestamps()
+	}
 	stages {
         stage('Checkout') {
             steps {
