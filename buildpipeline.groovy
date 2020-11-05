@@ -6,12 +6,19 @@ def runStages() {
 		def ver = compilerPath.split('/')[4].substring(1)		
 		
 		execute("git clone https://bitbucket.microchip.com/scm/citd/tool-mplabx-c-project-generator.git")					
-		execute("cd tool-mplabx-c-project-generator2 && node configGenerator.js sp=../ v8=${ver} packs=${pDir}")	
+		execute("cd tool-mplabx-c-project-generator && node configGenerator.js sp=../ v8=${ver} packs=${pDir}")	
 	}
 	stage('build') {
 		execute("git clone https://bitbucket.microchip.com/scm/citd/tool-mplabx-c-build.git")								
 		execute("cd tool-mplabx-c-build && node buildLauncher.js sp=../ rp=./output genMK=true")
 	}
+	stage('github-deploy') {
+		
+	}
+	stage('portal-deploy') {
+	}
+	// Archive the build output artifacts.
+    archiveArtifacts artifacts: "tool-mplabx-c-build/output/**", allowEmptyArchive: true, fingerprint: true
 }
 def execute(String cmd) {
 	if(isUnix()) {
