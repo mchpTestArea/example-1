@@ -1,4 +1,4 @@
-def run() {
+def runStages() {
 	stage('pre-build'){
 		def mplabxPath= sh (script: 'update-alternatives --list MPLABX_PATH',returnStdout: true).trim()
 		def compilerPath= sh (script: 'update-alternatives --list XC8_PATH',returnStdout: true).trim()										
