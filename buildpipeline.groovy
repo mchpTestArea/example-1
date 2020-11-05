@@ -6,7 +6,7 @@ def runStages() {
 		def ver = compilerPath.split('/')[4].substring(1)		
 		
 		execute("git clone https://bitbucket.microchip.com/scm/citd/tool-mplabx-c-project-generator.git")					
-		execute("cd tool-mplabx-c-project-generator && node configGenerator.js sp=../ v8=${ver} packs=${pDir}")	
+		execute("cd tool-mplabx-c-project-generator2 && node configGenerator.js sp=../ v8=${ver} packs=${pDir}")	
 	}
 	stage('build') {
 		execute("git clone https://bitbucket.microchip.com/scm/citd/tool-mplabx-c-build.git")								
