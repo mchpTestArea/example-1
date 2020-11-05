@@ -13,13 +13,13 @@ def runStages() {
 		execute("cd tool-mplabx-c-build && node buildLauncher.js sp=../ rp=./output genMK=true")
 	}
 	stage('github-deploy') {
-		when(true) {
+		if(env.BRANCH_NAME == 'test') {
 			echo "GitHub deploy"
 		}
 		
 	}
 	stage('portal-deploy') {
-		when(false) {
+		if(env.BRANCH_NAME == 'develop'){
 			echo "Portal deploy"
 		}
 	}
