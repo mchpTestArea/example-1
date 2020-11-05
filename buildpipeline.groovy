@@ -36,6 +36,7 @@ def runStages() {
 		
 		// send an email
 		if(currentBuild.result != 'SUCCESS') {
+			echo "sending notification mail ${params.NOTIFICATION_EMAIL} ${currentBuild.fullDisplayName} ${env.BUILD_URL}"
 			sendPipelineFailureEmail()
 		}
 	}
