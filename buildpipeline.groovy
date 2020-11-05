@@ -20,3 +20,4 @@ def execute(String cmd) {
 		bat cmd
 	}
 }
+return this
