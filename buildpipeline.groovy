@@ -6,11 +6,11 @@ def runStages() {
 		def pDir = "${mplabxPath}/packs"				
 		def ver = compilerPath.split('/')[4].substring(1)		
 		
-		execute("git clone https://bitbucket.microchip.com/scm/citd/tool-mplabx-c-project-generator.git")					
+		download("tool-mplabx-c-project-generator","1.0.0")					
 		execute("cd tool-mplabx-c-project-generator && node configGenerator.js sp=../ v8=${ver} packs=${pDir}")	
 	}
 	stage('build') {
-		execute("git clone https://bitbucket.microchip.com/scm/citd/tool-mplabx-c-build.git")								
+		download("tool-mplabx-c-build","1.0.0")								
 		execute("cd tool-mplabx-c-build && node buildLauncher.js sp=../ rp=./output genMK=true")
 	}
 	stage('github-deploy') {
@@ -33,6 +33,11 @@ def runStages() {
 	} finally {
 		// Archive the build output artifacts.
 		archiveArtifacts artifacts: "tool-mplabx-c-build/output/**", allowEmptyArchive: true, fingerprint: true
+		
+		// send an email
+		if(currentBuild.result != 'SUCCESS') {
+			sendPipelineFailureEmail()
+		}
 	}
 }
 def execute(String cmd) {
@@ -60,4 +65,11 @@ def getGiHubInfo() {
 	githubObj.ownerName = splitURLString[splitURLString.size()-2]
 	return githubObj
 }
+
+def sendPipelineFailureEmail () {			  
+    mail to: "${params.NOTIFICATION_EMAIL}",
+    subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+    body: "Pipeline failure. ${env.BUILD_URL}"
+}
+
 return this
