@@ -16,8 +16,7 @@ def runStages() {
 		if(env.BRANCH_NAME == 'test') {
 			echo "GitHub deploy"
 			echo "${params.NOTIFICATION_EMAIL}"
-		}
-		
+		}		
 	}
 	stage('portal-deploy') {
 		if(env.BRANCH_NAME == 'develop'){

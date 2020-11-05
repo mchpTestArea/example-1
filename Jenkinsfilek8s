@@ -6,7 +6,12 @@ pipeline {
             yamlFile 'cloudprovider.yml'
        }
     }
-
+    parameters {
+        string( name: 'NOTIFICATION_EMAIL',
+                defaultValue: 'dinesh.baria@microchip.com',
+                description: "Email to send build failure and fixed notifications.")
+    }
+	
 	options {
 		timestamps()
 	}
