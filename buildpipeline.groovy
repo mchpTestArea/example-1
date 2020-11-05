@@ -1,4 +1,5 @@
 def runStages() {
+	try {
 	stage('pre-build'){
 		def mplabxPath= sh (script: 'update-alternatives --list MPLABX_PATH',returnStdout: true).trim()
 		def compilerPath= sh (script: 'update-alternatives --list XC8_PATH',returnStdout: true).trim()										
@@ -24,8 +25,10 @@ def runStages() {
 			echo "Portal deploy"
 		}
 	}
-	// Archive the build output artifacts.
-    archiveArtifacts artifacts: "tool-mplabx-c-build/output/**", allowEmptyArchive: true, fingerprint: true
+	} finally {
+		// Archive the build output artifacts.
+		archiveArtifacts artifacts: "tool-mplabx-c-build/output/**", allowEmptyArchive: true, fingerprint: true
+	}
 }
 def execute(String cmd) {
 	if(isUnix()) {
