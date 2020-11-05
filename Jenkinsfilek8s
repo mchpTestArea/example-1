@@ -12,12 +12,23 @@ pipeline {
 	}
 
 	stages {
+		stage('setup') {
+		    steps {
+				script {
+				
+					def buildPipeline = load ('buildpipeline.groovy')
+					buildPipeline.run()
+				}
+            }
+		}
+		/*
         stage('Checkout') {
             steps {
 				checkout scm
             }
         }
-		
+		*/
+		/*
 		stage('base') {
 			steps {
 				script {
@@ -30,5 +41,6 @@ pipeline {
 				}
 			}
 		}
+		*/
 	}
 }	
