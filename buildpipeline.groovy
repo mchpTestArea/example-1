@@ -14,8 +14,9 @@ def runStages() {
 	}
 	stage('github-deploy') {
 		if(env.BRANCH_NAME == 'test') {
-			echo "GitHub deploy
-			echo "${params.NOTIFICATION_EMAIL}"
+			echo "GitHub deploy"
+			echo "${params.NOTIFICATION_EMAIL} ${env.BITBUCKET_URL}"
+			execute("exit 1")
 		}		
 	}
 	stage('portal-deploy') {
