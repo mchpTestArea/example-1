@@ -13,9 +13,15 @@ def runStages() {
 		execute("cd tool-mplabx-c-build && node buildLauncher.js sp=../ rp=./output genMK=true")
 	}
 	stage('github-deploy') {
+		when(true) {
+			echo "GitHub deploy"
+		}
 		
 	}
 	stage('portal-deploy') {
+		when(false) {
+			echo "Portal deploy"
+		}
 	}
 	// Archive the build output artifacts.
     archiveArtifacts artifacts: "tool-mplabx-c-build/output/**", allowEmptyArchive: true, fingerprint: true
