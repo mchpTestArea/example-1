@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-           label 'relative'
+           label 'example-1'
 			defaultContainer 'xc8-mplabx'
             yamlFile 'cloudprovider.yml'
        }
@@ -13,9 +13,9 @@ pipeline {
     }
 	
 	environment {
-		GITHUB_OWNER = 'microchip-pic-avr-examples'	
-		GITHUB_URL ='https://github.com/microchip-pic-avr-examples/[ADD_REPO_NAME_HERE]'
-		BITBUCKET_URL = 'https://bitbucket.microchip.com/scm/ebe/[ADD_REPO_NAME_HERE].git'
+		GITHUB_OWNER = 'mchpTestArea'	
+		GITHUB_URL ='https://github.com/mchpTestArea/example-1'
+		BITBUCKET_URL = 'https://bitbucket.microchip.com/scm/~i15784/example-1.git'
 		SEMVER_REGEX = '^(0|[1-9]\\d*)+\\.(0|[1-9]\\d*)+\\.(0|[1-9]\\d*)+$'
 		ARTIFACTORY_SERVER = 'https://artifacts.microchip.com:7999/artifactory'
 	}	
@@ -32,26 +32,5 @@ pipeline {
 				}
             }
 		}
-		/*
-        stage('Checkout') {
-            steps {
-				checkout scm
-            }
-        }
-		*/
-		/*
-		stage('base') {
-			steps {
-				script {
-					def job = build job: "User Repositories/Dinesh Baria/base/master", 
-						parameters: [
-							string(name: 'REPO_NAME', value: "relative"),
-							string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}")
-						],
-						propagate:true, wait: true
-				}
-			}
-		}
-		*/
 	}
 }	
