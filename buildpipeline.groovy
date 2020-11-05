@@ -14,7 +14,7 @@ def runStages() {
 		execute("cd tool-mplabx-c-build && node buildLauncher.js sp=../ rp=./output genMK=true")
 	}
 	stage('github-deploy') {
-		if(env.TAG_NAME} =~ env.SEMVER_REGEX) {
+		if(env.TAG_NAME =~ env.SEMVER_REGEX) {
 			def githubObj = getGiHubInfo()					
 			download("tool-github-deploy","1.0.0")		
 			execute("chmod +x ./tool-github-deploy/tool-github-deploy/tool-github-deploy.py")  
