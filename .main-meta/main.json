@@ -4,7 +4,7 @@
   "content": {
     "metaDataVersion": "1.1.0",
     "name": "com.microchip.mcu8.mplabx.project.example-1",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "displayName": "Example 1",
     "projectName": "example-1",
     "shortDescription": "PIC16F1947 MCC Example",
