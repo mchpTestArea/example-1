@@ -1,5 +1,28 @@
 def runStages() {
 	try {	
+		stage('metadata') {
+			def jsonObj = readJSON file:".main-meta/main.json"		
+			def version = "${jsonObj.content.version}".trim()
+			
+			if(version != "" || env.TAG_NAME ) {				
+				download("metadata-schema","1.1.0")
+				download("tool-metadata-validator","1.0.0")										
+				execute("cd tool-metadata-validator && python metadata-validator.py -data '../.main-meta/main.json' -schema '../metadata-schema/main-schema.json'")
+								
+				def githubObj = getGiHubInfo()
+			
+				if(githubObj.repoName != jsonObj.content.projectName) {
+					execute("echo 'Project name in metadata file does not match with GitHub repository name.' && exit 1")						
+				}
+				
+				if(env.TAG_NAME =~ env.SEMVER_REGEX) {
+					if(env.TAG_NAME != jsonObj.content.version) {
+						execute("echo 'Version in metadata file does not match with TAG_NAME.' && exit 1") 
+					}
+				}
+			}		
+		}
+	
 		stage('pre-build'){
 			def mplabxPath= sh (script: 'update-alternatives --list MPLABX_PATH',returnStdout: true).trim()
 			def compilerPath= sh (script: 'update-alternatives --list XC8_PATH',returnStdout: true).trim()										
@@ -30,7 +53,22 @@ def runStages() {
 		
 		stage('portal-deploy') {
 			if(env.TAG_NAME =~ env.SEMVER_REGEX){
-				echo "Portal deploy"
+				def metadata = readJSON file:".main-meta/main.json"					
+				def version = metadata.content.version
+				def project = metadata.content.projectName
+
+				if(version == env.TAG_NAME) {				
+					def cmdArgs = "'{\"repoOwnerName\":\"$env.GITHUB_OWNER\",\"repoName\":\"$project\",\"tagName\":\"$version\"}'"
+					cmdArgs = cmdArgs.replaceAll("\"","\\\\\"")						
+				
+					execute("git clone https://bitbucket.microchip.com/scm/portal/bundles.git")
+					execute("cd bundles && chmod 755 ./portal-client-cli-linux")						
+					download("tool-portal-client-launcher","1.0.0")
+					execute("cd tool-portal-client-launcher && node portalLauncher.js -app=../bundles/portal-client-cli-linux -cmd=\"uploadGitHub ${cmdArgs}\"")
+					sendSuccessfulPortalDeploymentEmail()
+				} else {
+					execute("echo 'Tag name is not equal to metadata content version.' && exit 1")
+				}
 			}
 		}	
 	} finally {

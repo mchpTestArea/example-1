@@ -1,0 +1,63 @@
+{
+  "metaDataVersion": "1.0.0",
+  "category": "com.microchip.ide.project",
+  "content": {
+    "metaDataVersion": "1.1.0",
+    "name": "com.microchip.mcu8.mplabx.project.example-1",
+    "version": "",
+    "displayName": "Example 1",
+    "projectName": "example-1",
+    "shortDescription": "PIC16F1947 MCC Example",
+	"ide": {
+		"name": "MPLABX",
+		"semverRange": ">=5.35.0"
+	},
+	"compiler": [{
+		"name": "XC8",
+		"semverRange": "^2.10.0"
+	}],
+	"dfp": {
+		"name": "PIC12-16F1xxx_DFP",
+		"semverRange": "^1.0.36"
+	},
+	"configurator": {
+		"name": "MCC",
+		"semverRange": ">=3.9.50"
+	},
+	"device": {
+		"metaDataVersion": "1.0.0",
+		"category": "com.microchip.portal.contentRef",
+		"content": {
+			"metaDataVersion": "1.0.0",
+			"category": "com.microchip.device",
+			"name": "PIC16F1947",
+			"versionRange": "*"
+		}
+	},
+	"subcategories":[
+		"MCC",
+		[
+			"Peripherals",
+			"GPIO"
+		]
+	],
+	"peripherals": [
+		"GPIO"
+	],
+	"keywords": [
+		"MCC",
+		"GPIO"
+	],
+	"additionalData": {
+		"longDescription": {
+			"metaDataVersion": "1.0.0",
+			"category": "com.microchip.portal.fileRef",
+			"content": {
+				"metaDataVersion": "1.0.0",
+				"fileName": "./README.md",
+				"mimeType": "text/markdown"
+			}
+		}
+	}	
+  }
+}
