@@ -76,6 +76,7 @@ def runStages() {
 		archiveArtifacts artifacts: "tool-mplabx-c-build/output/**", allowEmptyArchive: true, fingerprint: true
 		
 		// send an email
+		echo "result:-${currentBuild.result}"
 		if(currentBuild.result != 'SUCCESS') {
 			echo "sending notification mail ${params.NOTIFICATION_EMAIL} ${currentBuild.fullDisplayName} ${env.BUILD_URL}"
 			sendPipelineFailureEmail()
