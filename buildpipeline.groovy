@@ -74,7 +74,11 @@ def runStages() {
 		}	
 	} finally {
 		// Archive the build output artifacts.
-		archiveArtifacts artifacts: "tool-mplabx-c-build/output/**", allowEmptyArchive: true, fingerprint: true
+		if( env.TAG_NAME == null ) {
+			archiveArtifacts artifacts: "tool-mplabx-c-build/output/**", allowEmptyArchive: true, fingerprint: true
+		} else {
+			deployReport("tool-mplabx-c-build/output/**")
+		}
 	}
 }
 
@@ -106,20 +110,37 @@ def getGiHubInfo() {
 	return githubObj
 }
 
-def sendPipelineFailureEmail() {			  
-    emailext( to: "${params.NOTIFICATION_EMAIL}",
-    subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-    body: "Pipeline failure. ${env.BUILD_URL}")
+def deployReport(String src) {
+	def source = src	
+	def files = findFiles glob: "${source}" 
+	if( files.length > 0 ) {
+		//def repository = 'mcu8-bin/8bit-Example'	
+		def repository = 'citd/report'
+		def slug = GIT_URL.tokenize('/')[4]
+		slug = slug.substring(0, slug.lastIndexOf('.')) //Remove .git
+		def sourceZipFile = "${slug}-${env.BRANCH_NAME}.${env.BUILD_NUMBER}.zip"
+		def targetZipFile = "${env.ARTIFACTORY_SERVER}/${repository}/${slug}/${env.BRANCH_NAME}/${slug}-${env.BRANCH_NAME}.${env.BUILD_NUMBER}.zip"
+		zip archive: false, glob: "${source}",zipFile: "${sourceZipFile}"
+		execute("curl -T ${sourceZipFile} ${targetZipFile}")	
+		execute("rm -rf ${sourceZipFile}")
+		sendRepoertEmail(targetZipFile)
+	}
+}
+
+def sendRepoertEmail(String reportFile) {
+    mail to: "${env.EMILLIST}",
+    subject: "Report: ${currentBuild.fullDisplayName}",
+    body: "Report: ${reportFile}"
 }
 
 def sendSuccessfulGithubDeploymentEmail() {
-    emailext( to: "${env.NOTIFICATION_EMAIL}",
+    emailext( to: "${params.NOTIFICATION_EMAIL}",
     subject: "Successful Github Deployment: ${currentBuild.fullDisplayName}",
     body: "The changes have been successfully deployed to GitHub. ${env.GITHUB_URL}")
 }
 
 def sendSuccessfulPortalDeploymentEmail() {
-    emailext( to: "${env.NOTIFICATION_EMAIL}",
+    emailext( to: "${params.NOTIFICATION_EMAIL}",
     subject: "Successful Portal Deployment: ${currentBuild.fullDisplayName}",
     body: "The changes have been successfully deployed to Discover Portal.")
 }

@@ -26,12 +26,25 @@ pipeline {
 	stages {
 		stage('setup') {
 		    steps {
-				script {
-					
+				script {					
 					def buildPipeline = load ('buildpipeline.groovy')
 					buildPipeline.runStages()
 				}
             }
 		}
 	}
-}	
+	
+	post {
+        failure {			
+            script {			
+				sendPipelineFailureEmail()
+            }
+        }	
+	}
+}
+	
+def sendPipelineFailureEmail() {			  
+    emailext( to: "${params.NOTIFICATION_EMAIL}",
+    subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+    body: "Pipeline failure. ${env.BUILD_URL}")
+}
