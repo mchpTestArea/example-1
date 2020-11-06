@@ -26,7 +26,8 @@ pipeline {
 	stages {
 		stage('setup') {
 		    steps {
-				script {				
+				script {
+					
 					def buildPipeline = load ('buildpipeline.groovy')
 					buildPipeline.runStages()
 				}
