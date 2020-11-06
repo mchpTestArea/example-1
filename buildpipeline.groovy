@@ -71,9 +71,9 @@ def getGiHubInfo() {
 }
 
 def sendPipelineFailureEmail () {			  
-    emailext to: "${params.NOTIFICATION_EMAIL}",
+    emailext( to: "${params.NOTIFICATION_EMAIL}",
     subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-    body: "Pipeline failure. ${env.BUILD_URL}"
+    body: "Pipeline failure. ${env.BUILD_URL}")
 }
 
 return this
