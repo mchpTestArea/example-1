@@ -1,10 +1,10 @@
 pipeline {
     agent {
         kubernetes {
-           label 'example-1'
+            label 'example-1'
 			defaultContainer 'xc8-mplabx'
-            yamlFile 'cloudprovider.yml'
-       }
+            yamlFile '.citd/cloudprovider.yml'
+        }
     }
     parameters {
         string( name: 'NOTIFICATION_EMAIL',
@@ -27,8 +27,9 @@ pipeline {
 	stages {
 		stage('setup') {
 		    steps {
-				script {					
-					def buildPipeline = load ('buildpipeline.groovy')
+				script {
+					execute("git clone https://bitbucket.microchip.com/scm/~i15784/mpae-build-groovy-script.git")
+					def buildPipeline = load ('mpae-build-groovy-script/buildpipeline.groovy')
 					buildPipeline.runStages()
 				}
             }
@@ -43,9 +44,15 @@ pipeline {
         }	
 	}
 }
-	
+def execute(String cmd) {
+	if(isUnix()) {
+		sh cmd
+	} else {
+		bat cmd
+	}
+}
 def sendPipelineFailureEmail() {			  
-    emailext( to: "${params.NOTIFICATION_EMAIL}",
+    mail to: "${params.NOTIFICATION_EMAIL}",
     subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-    body: "Pipeline failure. ${env.BUILD_URL}")
+    body: "Pipeline failure. ${env.BUILD_URL}"
 }
